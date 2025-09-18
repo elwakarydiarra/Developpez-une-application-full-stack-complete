@@ -1,1 +1,20 @@
+<nav class="topbar">
+  <ng-container *ngIf="auth.isLoggedIn$ | async; else loggedOut">
+    <a (click)="logout()">Se déconnecter</a>
+  </ng-container>
+  <a routerLink="/articles">Articles</a>
+  <a routerLink="/themes" *ngIf="auth.isLoggedIn$ | async">Thèmes</a>
+
+
+  <span class="spacer"></span>
+
+
+   <a routerLink="/profile" *ngIf="auth.isLoggedIn$ | async">Profil</a>
+
+  <ng-template #loggedOut>
+    <a routerLink="/login">Se connecter</a>
+    <a routerLink="/signup">S'inscrire</a>
+  </ng-template>
+</nav>
+
 <router-outlet></router-outlet>

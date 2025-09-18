@@ -1,0 +1,6 @@
+<form #f="ngForm" (ngSubmit)="submit()">
+  <input name="email" [(ngModel)]="email" type="email" placeholder="Email" required />
+  <input name="username" [(ngModel)]="username" placeholder="Username" required />
+  <input name="password" [(ngModel)]="password" type="password" placeholder="Mot de passe (≥ 8)" minlength="8" required />
+  <button type="submit" [disabled]="f.invalid">Créer mon compte</button>
+</form>

@@ -1,0 +1,7 @@
+<form #f="ngForm" (ngSubmit)="onSubmit()">
+  <input [(ngModel)]="username" name="username" placeholder="Nom d'utilisateur" required />
+  <input [(ngModel)]="password" name="password" type="password" placeholder="Mot de passe" required />
+  <button type="submit" [disabled]="loading">Se connecter</button>
+
+  <p *ngIf="error" style="color:#b00020">{{ error }}</p>
+</form>

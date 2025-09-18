@@ -1,4 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
-
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+* { pointer-events: auto !important; }
+.topbar {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #ccc;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.topbar a {
+  margin-right: 1rem;
+  text-decoration: none;
+  color: #333;
+  cursor: pointer;
+}
+
+.topbar a:hover {
+  text-decoration: underline;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+

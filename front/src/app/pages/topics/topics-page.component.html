@@ -1,0 +1,19 @@
+<h1 class="page-title">Thèmes</h1>
+
+<div *ngIf="error" class="error">{{ error }}</div>
+
+<div class="grid">
+  <div class="card" *ngFor="let t of topics; trackBy: trackById">
+    <h3 class="title">{{ t.name }}</h3>
+    <p class="desc">{{ t.description || '—' }}</p>
+
+    <button
+      class="btn"
+      [class.btn-primary]="!t.subscribed"
+      [class.btn-muted]="t.subscribed"
+      [disabled]="t.subscribed || loadingId === t.id"
+      (click)="onSubscribe(t)">
+      {{ t.subscribed ? 'Déjà abonné' : "S’abonner" }}
+    </button>
+  </div>
+</div>

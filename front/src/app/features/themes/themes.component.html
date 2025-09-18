@@ -1,0 +1,21 @@
+<div class="page">
+  <h1>Thèmes</h1>
+
+  <p *ngIf="loading">Chargement…</p>
+  <p class="error" *ngIf="!loading && error">{{ error }}</p>
+
+  <div class="grid" *ngIf="!loading && !error">
+    <article class="card" *ngFor="let t of topics">
+      <h3 class="title">{{ t.name }}</h3>
+      <p class="desc">{{ t.description || '—' }}</p>
+
+      <button
+        class="btn"
+        [class.subscribed]="t.subscribed"
+        [disabled]="t.subscribed || working.has(t.id)"
+        (click)="onSubscribe(t)">
+        {{ t.subscribed ? 'Déjà abonné' : 'S’abonner' }}
+      </button>
+    </article>
+  </div>
+</div>

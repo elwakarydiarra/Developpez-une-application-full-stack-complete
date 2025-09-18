@@ -1,0 +1,45 @@
+.topbar {
+  position: relative;
+  z-index: 10;
+}
+
+.nav {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: .75rem 1rem;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  cursor: pointer;        /* change le curseur au survol */
+  pointer-events: auto;   /* s’assure que le lien est cliquable */
+}
+
+.nav .spacer { flex: 1; }
+
+.page {
+  position: relative;
+  z-index: 0;
+  padding: 1rem;
+}
+.topbar {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f8f8f8;
+  border-bottom: 1px solid #ddd;
+}
+.spacer {
+  flex: 1;
+}
+a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}

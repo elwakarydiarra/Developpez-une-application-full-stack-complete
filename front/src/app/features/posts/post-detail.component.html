@@ -1,0 +1,29 @@
+<div class="wrap" *ngIf="post as p">
+  <div class="back" (click)="goBack()">
+    ← <span>Retour</span>
+  </div>
+
+  <h1>{{ p.title }}</h1>
+
+  <div class="meta">
+    <span>{{ p.createdAt | date:'mediumDate' }}</span>
+    <span class="muted">Auteur</span><span>{{ labelAuthor(p) }}</span>
+    <span class="muted">Thème</span><span>{{ labelTopic(p) }}</span>
+  </div>
+
+  <div class="content">{{ p.content }}</div>
+
+  <hr>
+
+  <h3>Commentaires</h3>
+
+  <div class="comment" *ngFor="let c of comments">
+    <div class="muted">{{ labelUser(c) }}</div>
+    <div class="bubble">{{ c.content }}</div>
+  </div>
+
+  <div class="new">
+    <textarea [(ngModel)]="text" placeholder="Écrivez ici votre commentaire"></textarea>
+    <button class="send" (click)="send()" [disabled]="sending || !text.trim()">✈️</button>
+  </div>
+</div>
