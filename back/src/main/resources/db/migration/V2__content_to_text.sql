@@ -1,0 +1,2 @@
+ALTER TABLE comments MODIFY content TEXT NOT NULL;
+ALTER TABLE posts    MODIFY content TEXT NOT NULL;
