@@ -1,30 +1,35 @@
-<section class="toolbar">
-  <button class="primary" type="button" (click)="goToCreate()">
-    Créer un article
-  </button>
+<!-- conteneur centré avec max-width -->
+<div class="page">
+  <!-- barre d’actions -->
+  <section class="toolbar">
+    <button class="primary" type="button" (click)="goToCreate()">
+      Créer un article
+    </button>
 
-  <button class="sort" type="button"
-          (click)="sort = (sort === 'desc' ? 'asc' : 'desc'); onSortChange()"
-          aria-label="Trier les articles">
-    <span>Trier par</span>
-    <span class="arrow" [class.asc]="sort === 'asc'">↓</span>
-  </button>
-</section>
+    <button class="sort" type="button"
+            (click)="sort = (sort === 'desc' ? 'asc' : 'desc'); onSortChange()"
+            aria-label="Trier les articles">
+      <span>Trier par</span>
+      <span class="arrow" [class.asc]="sort === 'asc'">↓</span>
+    </button>
+  </section>
 
-<div *ngIf="loading">Chargement…</div>
-<div *ngIf="error">{{ error }}</div>
+  <!-- messages -->
+  <div *ngIf="loading">Chargement…</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
 
-<div class="grid">
-  <article class="card" *ngFor="let p of posts" [routerLink]="['/posts', p.id]">
-    <h3 class="title">{{ p.title }}</h3>
-    <div class="meta">
-      <span>{{ p.createdAt | date:'mediumDate' }}</span>
-      <span>•</span>
-      <span>{{ p['authorUsername'] ?? 'Auteur' }}</span>
-      <span>•</span>
-      <span>{{ p['topicName'] ?? 'Thème' }}</span>
-    </div>
-    <p class="excerpt">{{ p.content }}</p>
-    <!--<a class="readmore" [routerLink]="['/posts', p.id]">Lire la suite</a>-->
-  </article>
+  <!-- grille 2 colonnes -->
+  <div class="grid">
+    <article class="card" *ngFor="let p of posts" [routerLink]="['/posts', p.id]">
+      <h3 class="title">{{ p.title }}</h3>
+      <div class="meta">
+        <span>{{ p.createdAt | date:'mediumDate' }}</span>
+        <span>•</span>
+        <span>{{ p['authorUsername'] ?? 'Auteur' }}</span>
+        <span>•</span>
+        <span>{{ p['topicName'] ?? 'Thème' }}</span>
+      </div>
+      <p class="excerpt">{{ p.content }}</p>
+    </article>
+  </div>
 </div>

@@ -76,19 +76,12 @@ input:focus {
 .hint a:hover { text-decoration: underline; }
 
 .auth-page { position: relative; }
-
-
 .back {
   position: absolute;
-  left: 8px;
-  top: 8px;
-  z-index: 10;
-  padding: 6px;
-  color: #111;
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
+  left: 8px; top: 8px;
+  z-index: 10; padding: 6px;
+  display: inline-flex; align-items: center;
+  color:#111; text-decoration:none; cursor:pointer;
 }
 .back .material-icons { font-size: 28px; line-height: 1; }
 

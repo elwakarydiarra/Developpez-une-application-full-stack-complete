@@ -33,4 +33,9 @@ export class LoginComponent {
       complete: () => (this.loading = false),
     });
   }
+  goWelcome(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.router.navigateByUrl('/');   // ← welcome
+  }
 }

@@ -1,29 +1,50 @@
-<div class="wrap" *ngIf="post as p">
-  <div class="back" (click)="goBack()">
-    ← <span>Retour</span>
+<div class="wrap">
+  <!-- ligne flèche + titre -->
+  <div class="head">
+    <a class="back" (click)="goBack()" aria-label="Retour">
+      <span class="material-icons">arrow_back</span>
+    </a>
+    <h1 class="title">{{ post?.title }}</h1>
   </div>
 
-  <h1>{{ p.title }}</h1>
+  <!-- Meta : Date • Auteur • Thème -->
+  <div class="meta" *ngIf="post">
+    <span>{{ post.createdAt | date:'mediumDate' }}</span>
 
-  <div class="meta">
-    <span>{{ p.createdAt | date:'mediumDate' }}</span>
-    <span class="muted">Auteur</span><span>{{ labelAuthor(p) }}</span>
-    <span class="muted">Thème</span><span>{{ labelTopic(p) }}</span>
+    <span>{{ labelAuthor(post) }}</span>
+
+    <span>{{ labelTopic(post) }}</span>
   </div>
 
-  <div class="content">{{ p.content }}</div>
-
-  <hr>
-
-  <h3>Commentaires</h3>
-
-  <div class="comment" *ngFor="let c of comments">
-    <div class="muted">{{ labelUser(c) }}</div>
-    <div class="bubble">{{ c.content }}</div>
+  <!-- Contenu -->
+  <div class="content" *ngIf="post">
+    {{ post.content }}
   </div>
 
-  <div class="new">
-    <textarea [(ngModel)]="text" placeholder="Écrivez ici votre commentaire"></textarea>
-    <button class="send" (click)="send()" [disabled]="sending || !text.trim()">✈️</button>
+  <hr class="sep" />
+
+  <!-- Commentaires -->
+  <h2 class="comments-title">Commentaires</h2>
+
+  <div class="comments">
+    <div class="comment" *ngFor="let c of comments">
+      <div class="comment-username">{{ labelUser(c) }}</div>
+      <div class="comment-bubble">{{ c.content }}</div>
+    </div>
   </div>
+
+  <!-- Zone de saisie + bouton avion à l’extérieur -->
+  <form class="composer" (ngSubmit)="send()">
+    <textarea
+      [(ngModel)]="text"
+      name="text"
+      rows="4"
+      placeholder="Écrivez ici votre commentaire"
+      required
+    ></textarea>
+
+    <button class="send" type="submit" [disabled]="sending || !text?.trim()">
+      <span class="material-icons">send</span>
+    </button>
+  </form>
 </div>

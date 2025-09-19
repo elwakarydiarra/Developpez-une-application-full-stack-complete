@@ -36,4 +36,9 @@ export class SignupComponent {
       complete: () => (this.loading = false),
     });
   }
+  goWelcome(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.router.navigateByUrl('/');   // ← welcome
+  }
 }

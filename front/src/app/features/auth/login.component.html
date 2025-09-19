@@ -1,6 +1,6 @@
 <div class="auth-page">
-  <!-- flèche retour vers l’accueil -->
-  <a class="back" routerLink="/" aria-label="Retour">
+  <!-- flèche retour → welcome -->
+  <a class="back" (click)="goWelcome($event)" aria-label="Retour">
     <span class="material-icons">arrow_back</span>
   </a>
 
@@ -8,34 +8,15 @@
 
   <form class="form" #f="ngForm" (ngSubmit)="onSubmit()">
     <label class="label" for="login">E-mail ou nom d’utilisateur</label>
-    <input
-      id="login"
-      name="login"
-      [(ngModel)]="login"
-      required
-      [disabled]="loading"
-      placeholder="Email ou nom d'utilisateur"
-    />
+    <input id="login" name="login" [(ngModel)]="login" required [disabled]="loading" />
 
     <label class="label" for="password">Mot de passe</label>
-    <input
-      id="password"
-      name="password"
-      type="password"
-      [(ngModel)]="password"
-      required
-      [disabled]="loading"
-      placeholder="Mot de passe"
-    />
+    <input id="password" name="password" type="password" [(ngModel)]="password" required [disabled]="loading" />
 
     <button class="primary" type="submit" [disabled]="loading || f.invalid">
       {{ loading ? 'Connexion…' : 'Se connecter' }}
     </button>
 
     <p class="error" *ngIf="error">{{ error }}</p>
-
-    <!--<div class="hint">
-      <a routerLink="/signup">Créer un compte</a>
-    </div>-->
   </form>
 </div>
