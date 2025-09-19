@@ -39,20 +39,21 @@ public class PostController {
 		Long userId = currentUser.requireUser().getId();
 		Post p = postService.create(userId, req);
 		return new PostDto(p.getId(), p.getAuthor().getId(), p.getAuthor().getUsername(), p.getTopic().getId(),
-				p.getTitle(), p.getContent(), p.getCreatedAt().toString());
+				p.getTopic().getName(), p.getTitle(), p.getContent(), p.getCreatedAt().toString());
 	}
 
 	@GetMapping("/{id}")
 	public PostDto get(@PathVariable Long id) {
 		Post p = postService.getById(id);
 		return new PostDto(p.getId(), p.getAuthor().getId(), p.getAuthor().getUsername(), p.getTopic().getId(),
-				p.getTitle(), p.getContent(), p.getCreatedAt().toString());
+				p.getTopic().getName(), p.getTitle(), p.getContent(), p.getCreatedAt().toString());
 	}
 
 	@GetMapping("/{id}/comments")
 	public List<CommentDto> listComments(@PathVariable Long id) {
-		return commentRepo.findByPost_IdOrderByCreatedAtAsc(id).stream().map(c -> new CommentDto(c.getId(),
-				c.getAuthor() != null ? c.getAuthor().getId() : null, c.getContent(), c.getCreatedAt().toString()))
+		return commentRepo.findByPost_IdOrderByCreatedAtAsc(id).stream()
+				.map(c -> new CommentDto(c.getId(), c.getAuthor() != null ? c.getAuthor().getId() : null,
+						c.getAuthor().getUsername(), c.getContent(), c.getCreatedAt().toString()))
 				.toList();
 	}
 
@@ -62,7 +63,7 @@ public class PostController {
 		var user = currentUser.requireUser();
 		var post = postService.getById(id);
 		var c = commentRepo.save(Comment.builder().post(post).author(user).content(req.content()).build());
-		return new CommentDto(c.getId(), c.getAuthor() != null ? c.getAuthor().getId() : null, c.getContent(),
-				c.getCreatedAt().toString());
+		return new CommentDto(c.getId(), c.getAuthor() != null ? c.getAuthor().getId() : null,
+				c.getAuthor().getUsername(), c.getContent(), c.getCreatedAt().toString());
 	}
 }

@@ -29,7 +29,8 @@ public class FeedController {
 
 		return feedService.feed(userId, asc).stream()
 				.map(p -> new PostDto(p.getId(), p.getAuthor().getId(), p.getAuthor().getUsername(),
-						p.getTopic().getId(), p.getTitle(), p.getContent(), p.getCreatedAt().toString()))
+						p.getTopic().getId(), p.getTopic().getName(), p.getTitle(), p.getContent(),
+						p.getCreatedAt().toString()))
 				.toList();
 	}
 }
