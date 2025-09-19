@@ -1,14 +1,63 @@
-<h2>Mon profil</h2>
+<div class="wrap">
+  <h1 class="page-title">Profil utilisateur</h1>
 
-<h3>Mes thèmes</h3>
-<p *ngIf="loading">Chargement…</p>
-<p class="error" *ngIf="error">{{ error }}</p>
+  <!-- Formulaire profil -->
+  <form class="profile-form" (ngSubmit)="save()">
+    <input
+      class="inp"
+      type="text"
+      name="username"
+      [(ngModel)]="username"
+      placeholder="Username"
+      required
+    />
 
-<ul class="topics">
-  <li *ngFor="let t of myTopics; trackBy: trackById">
-    <span class="name">{{ t.name }}</span>
-    <button (click)="unsubscribe(t)">Se désabonner</button>
-  </li>
-</ul>
+    <input
+      class="inp"
+      type="email"
+      name="email"
+      [(ngModel)]="email"
+      placeholder="email@email.fr"
+      required
+    />
 
-<p *ngIf="!loading && myTopics.length === 0">Aucun thème suivi pour le moment.</p>
+    <input
+      class="inp"
+      type="password"
+      name="password"
+      [(ngModel)]="password"
+      placeholder="Mot de passe"
+      minlength="6"
+    />
+
+    <button class="primary" type="submit" [disabled]="saving">
+      {{ saving ? 'Enregistrement…' : 'Sauvegarder' }}
+    </button>
+
+    <div class="msg ok" *ngIf="infoMsg">{{ infoMsg }}</div>
+    <div class="msg err" *ngIf="errorMsg">{{ errorMsg }}</div>
+  </form>
+
+  <hr class="sep" />
+
+  <h2 class="section-title">Abonnements</h2>
+
+  <div class="muted" *ngIf="loadingTopics">Chargement…</div>
+  <div class="muted" *ngIf="!loadingTopics && myTopics.length === 0">Aucun abonnement pour le moment.</div>
+
+  <!-- 2 cartes par ligne -->
+  <div class="topics-grid" *ngIf="!loadingTopics && myTopics.length">
+    <article class="card" *ngFor="let t of myTopics; trackBy: trackById">
+      <h3 class="topic-title">{{ t.name }}</h3>
+      <p class="topic-desc">{{ t.description }}</p>
+
+      <button
+        class="secondary"
+        (click)="unsubscribe(t)"
+        [disabled]="unsubscribingId === t.id"
+      >
+        {{ unsubscribingId === t.id ? '…' : 'Se désabonner' }}
+      </button>
+    </article>
+  </div>
+</div>

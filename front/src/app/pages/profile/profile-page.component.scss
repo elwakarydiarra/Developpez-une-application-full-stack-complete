@@ -1,2 +1,99 @@
-.topics { list-style: none; padding: 0; display: grid; gap: 12px; }
-.topics li { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border: 1px solid #e6e6e6; border-radius: 10px; }
+$violet: #7c5ce6;
+$violet-700: #6a52d1;
+$bg-card: #f1f1f6;
+
+.wrap{
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 20px 24px 40px;
+}
+
+.page-title{
+  text-align: center;
+  margin: 8px 0 18px;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+/* --------- Profil --------- */
+.profile-form{
+  width: min(520px, 100%);
+  margin: 0 auto 18px;
+  display: grid;
+  gap: 12px;
+}
+
+.inp{
+  width: 100%;
+  border: 2px solid $violet;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 16px;
+  outline: none;
+  background: #fff;
+}
+.inp:focus{ box-shadow: 0 0 0 3px rgba($violet, .15); }
+
+.primary{
+  background: $violet;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.primary:disabled{ opacity: .6; cursor: default; }
+
+.msg{ text-align: center; font-weight: 600; }
+.msg.ok{ color: #2d7a2a; }
+.msg.err{ color: #b00020; }
+
+/* --------- Abonnements --------- */
+.sep{
+  border: none;
+  border-top: 1px solid #dcdce3;
+  margin: 24px 0 18px;
+}
+
+.section-title{
+  text-align: center;
+  margin: 0 0 16px;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.muted{ color: #777; text-align: center; margin: 12px 0; }
+
+.topics-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2 par ligne */
+  gap: 18px;
+}
+@media (max-width: 860px){
+  .topics-grid{ grid-template-columns: 1fr; }  /* 1 par ligne sur mobile */
+}
+
+.card{
+  background: $bg-card;
+  border-radius: 12px;
+  padding: 16px;
+  display: grid;
+  gap: 10px;
+}
+.topic-title{ margin: 0; font-size: 18px; font-weight: 800; }
+.topic-desc{ margin: 0; color: #555; line-height: 1.5; }
+
+.secondary{
+  margin-top: 6px;
+  background: $violet;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: 700;
+  cursor: pointer;
+  justify-self: start;
+}
+.secondary:hover{ background: $violet-700; }
+.secondary:disabled{ opacity: .6; cursor: default; }
