@@ -1,20 +1,34 @@
-<nav class="topbar">
+<header class="topbar" *ngIf="!(isWelcome$ | async)">
+  <!-- Logo -->
+  <a class="brand" routerLink="/articles" aria-label="Accueil">
+    <img src="assets/mdd-logo.png" alt="MDD" />
+  </a>
+
+  <!-- Nav centre -->
   <ng-container *ngIf="auth.isLoggedIn$ | async; else loggedOut">
-    <a (click)="logout()">Se déconnecter</a>
+    <nav class="nav">
+      <a class="logout" (click)="logout()">Se déconnecter</a>
+      <a routerLink="/articles"
+         routerLinkActive="active"
+         [routerLinkActiveOptions]="{ exact: true }">Articles</a>
+      <a routerLink="/themes"
+         routerLinkActive="active">Thèmes</a>
+    </nav>
   </ng-container>
-  <a routerLink="/articles">Articles</a>
-  <a routerLink="/themes" *ngIf="auth.isLoggedIn$ | async">Thèmes</a>
-
-
-  <span class="spacer"></span>
-
-
-   <a routerLink="/profile" *ngIf="auth.isLoggedIn$ | async">Profil</a>
 
   <ng-template #loggedOut>
-    <a routerLink="/login">Se connecter</a>
-    <a routerLink="/signup">S'inscrire</a>
+    <nav class="nav">
+      <a routerLink="/login">Se connecter</a>
+      <a routerLink="/signup">S'inscrire</a>
+    </nav>
   </ng-template>
-</nav>
+
+  <!-- Icône Profil à droite -->
+  <div class="right" *ngIf="auth.isLoggedIn$ | async">
+    <a class="profile" routerLink="/profile" aria-label="Profil">
+      <span class="material-icons">account_circle</span>
+    </a>
+  </div>
+</header>
 
 <router-outlet></router-outlet>

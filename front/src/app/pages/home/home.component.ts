@@ -1,4 +1,3 @@
-// src/app/pages/home/home.component.ts
 import { Component } from '@angular/core';
 import { CommonModule, DatePipe, NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';

@@ -1,23 +1,41 @@
-<h2>Créer un nouvel article</h2>
+<div class="create-post">
+  <!-- flèche retour -->
+  <a class="back" routerLink="/articles" aria-label="Retour">
+    <span class="material-icons">arrow_back</span>
+  </a>
 
-<form (ngSubmit)="onSubmit()">
-  <label>Thème</label>
-  <select [(ngModel)]="topicId" name="topicId" required>
-    <option [ngValue]="null" disabled selected>— choisir —</option>
-    <option *ngFor="let t of topics; trackBy: trackById" [ngValue]="t.id">
-      {{ t.name }}
-    </option>
-  </select>
+  <h1>Créer un nouvel article</h1>
 
-  <label>Titre</label>
-  <input [(ngModel)]="title" name="title" required placeholder="Titre de l’article" />
+  <form class="form" (ngSubmit)="onSubmit()">
+    <!-- Thème -->
+    <label class="sr-only" for="topicId">Sélectionner un thème</label>
+    <select id="topicId" name="topicId"
+            [(ngModel)]="topicId" required>
+      <option [ngValue]="null" disabled selected>Sélectionner un thème</option>
+      <option *ngFor="let t of topics; trackBy: trackById" [ngValue]="t.id">
+        {{ t.name }}
+      </option>
+    </select>
 
-  <label>Contenu</label>
-  <textarea [(ngModel)]="content" name="content" rows="6" required placeholder="Votre texte..."></textarea>
+    <!-- Titre -->
+    <label class="sr-only" for="title">Titre de l’article</label>
+    <input id="title" name="title" type="text"
+           [(ngModel)]="title"
+           required
+           placeholder="Titre de l’article" />
 
-  <div class="actions">
-    <button type="submit" [disabled]="!canSubmit()">Créer</button>
-  </div>
+    <!-- Contenu -->
+    <label class="sr-only" for="content">Contenu de l’article</label>
+    <textarea id="content" name="content" rows="8"
+              [(ngModel)]="content"
+              required
+              placeholder="Contenu de l’article"></textarea>
 
-  <p class="error" *ngIf="error">{{ error }}</p>
-</form>
+    <!-- Bouton -->
+    <button class="primary" type="submit" [disabled]="!canSubmit()">
+      Créer
+    </button>
+
+    <p class="error" *ngIf="error">{{ error }}</p>
+  </form>
+</div>

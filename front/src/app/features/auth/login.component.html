@@ -1,7 +1,41 @@
-<form #f="ngForm" (ngSubmit)="onSubmit()">
-  <input [(ngModel)]="username" name="username" placeholder="Nom d'utilisateur" required />
-  <input [(ngModel)]="password" name="password" type="password" placeholder="Mot de passe" required />
-  <button type="submit" [disabled]="loading">Se connecter</button>
+<div class="auth-page">
+  <!-- flèche retour vers l’accueil -->
+  <a class="back" routerLink="/" aria-label="Retour">
+    <span class="material-icons">arrow_back</span>
+  </a>
 
-  <p *ngIf="error" style="color:#b00020">{{ error }}</p>
-</form>
+  <h1>Se connecter</h1>
+
+  <form class="form" #f="ngForm" (ngSubmit)="onSubmit()">
+    <label class="label" for="login">E-mail ou nom d’utilisateur</label>
+    <input
+      id="login"
+      name="login"
+      [(ngModel)]="login"
+      required
+      [disabled]="loading"
+      placeholder="Email ou nom d'utilisateur"
+    />
+
+    <label class="label" for="password">Mot de passe</label>
+    <input
+      id="password"
+      name="password"
+      type="password"
+      [(ngModel)]="password"
+      required
+      [disabled]="loading"
+      placeholder="Mot de passe"
+    />
+
+    <button class="primary" type="submit" [disabled]="loading || f.invalid">
+      {{ loading ? 'Connexion…' : 'Se connecter' }}
+    </button>
+
+    <p class="error" *ngIf="error">{{ error }}</p>
+
+    <!--<div class="hint">
+      <a routerLink="/signup">Créer un compte</a>
+    </div>-->
+  </form>
+</div>
