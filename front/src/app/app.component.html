@@ -1,34 +1,41 @@
-<header class="topbar" *ngIf="!(isWelcome$ | async)">
-  <!-- Logo -->
-  <a class="brand" routerLink="/articles" aria-label="Accueil">
+<header class="topbar">
+  <!-- Logo toujours visible -->
+  <a class="brand"
+     [routerLink]="(auth.isLoggedIn$ | async) ? '/articles' : '/'"
+     aria-label="Accueil">
     <img src="assets/mdd-logo.png" alt="MDD" />
   </a>
 
-  <!-- Nav centre -->
-  <ng-container *ngIf="auth.isLoggedIn$ | async; else loggedOut">
-    <nav class="nav">
-      <a class="logout" (click)="logout()">Se déconnecter</a>
-      <a routerLink="/articles"
-         routerLinkActive="active"
-         [routerLinkActiveOptions]="{ exact: true }">Articles</a>
-      <a routerLink="/themes"
-         routerLinkActive="active">Thèmes</a>
-    </nav>
+  <!-- Tout le bloc nav/menus est caché sur les pages d'auth -->
+  <ng-container *ngIf="!(isAuthPage$ | async)">
+
+    <!-- Menus quand connecté -->
+    <ng-container *ngIf="auth.isLoggedIn$ | async; else loggedOut">
+      <nav class="nav">
+        <a class="logout" (click)="logout()">Se déconnecter</a>
+        <a routerLink="/articles"
+           routerLinkActive="active"
+           [routerLinkActiveOptions]="{ exact: true }">Articles</a>
+        <a routerLink="/themes" routerLinkActive="active">Thèmes</a>
+      </nav>
+
+      <!-- Icône Profil à droite -->
+      <div class="right">
+        <a class="profile" routerLink="/profile" aria-label="Profil">
+          <span class="material-icons">account_circle</span>
+        </a>
+      </div>
+    </ng-container>
+
+    <!-- Menus quand déconnecté (mais pas sur /login /signup /welcome) -->
+    <ng-template #loggedOut>
+      <nav class="nav">
+        <a routerLink="/login">Se connecter</a>
+        <a routerLink="/signup">S'inscrire</a>
+      </nav>
+    </ng-template>
+
   </ng-container>
-
-  <ng-template #loggedOut>
-    <nav class="nav">
-      <a routerLink="/login">Se connecter</a>
-      <a routerLink="/signup">S'inscrire</a>
-    </nav>
-  </ng-template>
-
-  <!-- Icône Profil à droite -->
-  <div class="right" *ngIf="auth.isLoggedIn$ | async">
-    <a class="profile" routerLink="/profile" aria-label="Profil">
-      <span class="material-icons">account_circle</span>
-    </a>
-  </div>
 </header>
 
 <router-outlet></router-outlet>

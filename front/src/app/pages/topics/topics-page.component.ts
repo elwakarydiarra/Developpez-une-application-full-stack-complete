@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TopicsService, TopicDto } from '../../core/services/topics.service';
 
+type TopicVM = TopicDto & { description?: string };
+
 @Component({
   selector: 'app-topics-page',
   standalone: true,
@@ -12,7 +14,7 @@ import { TopicsService, TopicDto } from '../../core/services/topics.service';
 export class TopicsPageComponent {
   private topicsSrv = inject(TopicsService);
 
-  topics: TopicDto[] = [];
+  topics: TopicVM[] = [];
   loading = false;
   error = '';
   loadingId: number | null = null;
@@ -22,16 +24,34 @@ export class TopicsPageComponent {
   }
 
   refresh() {
-    this.loading = true; this.error = '';
+    this.loading = true;
+    this.error = '';
+
     this.topicsSrv.list().subscribe({
-      next: t => { this.topics = t; this.loading = false; },
-      error: () => { this.error = 'Impossible de charger les thèmes.'; this.loading = false; }
+      next: list => {
+        // 🔧 Normalisation pour s'assurer que .description est remplie
+        this.topics = (list ?? []).map((t: any) => ({
+          ...t,
+          description:
+            t.description ??
+            t.desc ??
+            t.details ??
+            t.content ??
+            t?.topic?.description ??
+            ''
+        }));
+        this.loading = false;
+      },
+      error: () => {
+        this.error = 'Impossible de charger les thèmes.';
+        this.loading = false;
+      }
     });
   }
 
-  trackById = (_: number, t: TopicDto) => t.id;
+  trackById = (_: number, t: TopicVM) => t.id;
 
-  onSubscribe(t: TopicDto) {
+  onSubscribe(t: TopicVM) {
     if (t.subscribed) return;
     this.loadingId = t.id;
     this.topicsSrv.subscribe(t.id).subscribe({

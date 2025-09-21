@@ -13,7 +13,37 @@
     <input id="email" name="email" type="email" [(ngModel)]="email" required [disabled]="loading" />
 
     <label class="label" for="password">Mot de passe</label>
-    <input id="password" name="password" type="password" [(ngModel)]="password" minlength="8" required [disabled]="loading" />
+    <input
+      id="password"
+      name="password"
+      type="password"
+      [(ngModel)]="password"
+      minlength="8"
+      required
+      [disabled]="loading"
+      #pw="ngModel"
+      pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9])(?=\S+$).{8,}$"
+      placeholder="≥8, maj, min, chiffre, spécial"
+    />
+
+    <!-- Checklist d’aide (utilise les getters du .ts) -->
+    <ul class="pwd-hints" [class.ok]="pw.valid || password.length === 0">
+      <li [class.ok]="lenOk">Au moins 8 caractères</li>
+      <li [class.ok]="lowerOk">Une lettre minuscule</li>
+      <li [class.ok]="upperOk">Une lettre majuscule</li>
+      <li [class.ok]="digitOk">Un chiffre</li>
+      <li [class.ok]="specialOk">Un caractère spécial</li>
+      <li [class.ok]="noSpaceOk">Sans espace</li>
+    </ul>
+
+    <!-- Messages de validation natifs -->
+    <p class="error" *ngIf="pw.invalid && pw.touched">
+      <span *ngIf="pw.errors?.['required']">Mot de passe requis.</span>
+      <span *ngIf="pw.errors?.['minlength']">Au moins 8 caractères.</span>
+      <span *ngIf="pw.errors?.['pattern']">
+        Doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial, sans espaces.
+      </span>
+    </p>
 
     <button class="primary" type="submit" [disabled]="loading || f.invalid">
       {{ loading ? 'En cours…' : "S’inscrire" }}

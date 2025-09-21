@@ -1,13 +1,15 @@
 .welcome {
-  min-height: calc(100vh - 2px);
+  /* plein écran, sans barre en haut */
+  min-height: 100svh; /* mieux que 100vh sur mobile */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 48px;
   padding: 24px;
-  position: relative;
-  z-index: 0;
+
+  /* remonte légèrement le bloc (logo + actions) */
+  transform: translateY(-6vh);
 }
 
 .logo {
@@ -34,5 +36,25 @@
   font-weight: 700;
   cursor: pointer;
   transition: box-shadow .15s ease, transform .02s ease, background .15s ease;
+  line-height: 1;
 }
-.btn:hover { box-shadow: 0 6px 18px rgba(0,0,0,.08); background: #f8f8ff; }
+
+.btn:hover {
+  box-shadow: 0 6px 18px rgba(0,0,0,.08);
+  background: #f8f8ff;
+}
+
+.btn:focus-visible {
+  outline: 3px solid #7c5cf5; /* violet */
+  outline-offset: 2px;
+  border-color: #7c5cf5;
+}
+
+@media (max-width: 480px) {
+  .actions { gap: 20px; }
+  .btn {
+    min-width: 220px;
+    width: 100%;
+    text-align: center;
+  }
+}

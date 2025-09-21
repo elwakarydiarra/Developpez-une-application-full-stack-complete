@@ -1,8 +1,10 @@
 <div class="wrap">
+  <!-- Titre -->
   <h1 class="page-title">Profil utilisateur</h1>
 
   <!-- Formulaire profil -->
   <form class="profile-form" (ngSubmit)="save()">
+    <!-- Username -->
     <input
       class="inp"
       type="text"
@@ -12,6 +14,7 @@
       required
     />
 
+    <!-- Email -->
     <input
       class="inp"
       type="email"
@@ -21,16 +24,27 @@
       required
     />
 
+    <!-- Nouveau mot de passe (optionnel) -->
     <input
       class="inp"
       type="password"
       name="password"
       [(ngModel)]="password"
       placeholder="Mot de passe"
-      minlength="6"
     />
 
-    <button class="primary" type="submit" [disabled]="saving">
+    <!-- Checklist force du mot de passe (affichée si l'utilisateur saisit quelque chose) -->
+    <ul class="pw-rules" *ngIf="password">
+      <li [class.ok]="hasMinLen">Au moins 8 caractères</li>
+      <li [class.ok]="hasLower">Une lettre minuscule</li>
+      <li [class.ok]="hasUpper">Une lettre majuscule</li>
+      <li [class.ok]="hasDigit">Un chiffre</li>
+      <li [class.ok]="hasSpecial">Un caractère spécial</li>
+      <li [class.ok]="noSpace">Sans espace</li>
+    </ul>
+
+    <!-- Actions / messages -->
+    <button class="primary" type="submit" [disabled]="saving || !email || !username || !pwStrong">
       {{ saving ? 'Enregistrement…' : 'Sauvegarder' }}
     </button>
 
@@ -40,10 +54,13 @@
 
   <hr class="sep" />
 
+  <!-- Abonnements -->
   <h2 class="section-title">Abonnements</h2>
 
   <div class="muted" *ngIf="loadingTopics">Chargement…</div>
-  <div class="muted" *ngIf="!loadingTopics && myTopics.length === 0">Aucun abonnement pour le moment.</div>
+  <div class="muted" *ngIf="!loadingTopics && myTopics.length === 0">
+    Aucun abonnement pour le moment.
+  </div>
 
   <!-- 2 cartes par ligne -->
   <div class="topics-grid" *ngIf="!loadingTopics && myTopics.length">
@@ -51,13 +68,14 @@
       <h3 class="topic-title">{{ t.name }}</h3>
       <p class="topic-desc">{{ t.description }}</p>
 
-      <button
-        class="secondary"
-        (click)="unsubscribe(t)"
-        [disabled]="unsubscribingId === t.id"
-      >
-        {{ unsubscribingId === t.id ? '…' : 'Se désabonner' }}
-      </button>
+     <button
+  class="secondary"
+  (click)="unsubscribe(t)"
+  [disabled]="unsubscribingId === t.id"
+  [attr.aria-label]="'Se désabonner de ' + t.name"
+>
+  {{ unsubscribingId === t.id ? '…' : 'Se désabonner' }}
+</button>
     </article>
   </div>
 </div>
