@@ -41,6 +41,10 @@
   pointer-events: none;
 }
 
+.only{
+  display: none;
+}
+
 /* Titre */
 h1 {
   text-align: center;
@@ -48,6 +52,7 @@ h1 {
   font-size: 24px;
   font-weight: 800;
   color: #111;
+  margin-top: auto;
 }
 
 /* Formulaire */
@@ -71,12 +76,13 @@ h1 {
 .field {
   display: flex;
   flex-direction: column;
-  gap: 4px;                    /* espace label ↔ input (réduit) */
+  gap: 4px;
+                    /* espace label ↔ input (réduit) */
 }
 
 /* Champs */
 input {
-  width: 100%;
+  //width: 100%;
   border: 2px solid #2f2f2f;
   border-radius: 10px;
   padding: 12px 14px;
@@ -105,7 +111,7 @@ input:focus {
   box-shadow: 0 2px 0 rgba(0,0,0,.06);
   transition: filter .15s ease, transform .02s ease;
   align-self: center;
-  width: 100%;
+  width: 50%;
 }
 .primary:hover { background: #6b4fd6; }
 .primary:disabled { opacity: .65; cursor: default; }
@@ -117,11 +123,21 @@ input:focus {
 .hint a:hover { text-decoration: underline; }
 
 /* --- Responsive finitions --- */
-@media (min-width: 480px) {
-  .logo { width: 160px; margin-top: 48px; }
-  h1    { font-size: 26px; }
-}
 
-@media (max-width: 420px) {
+@media (max-width: 1152px) {
+   h1    { font-size: 26px; }
   .primary { width: 58%; }
+
+    .only{
+  display: block;
+}
+.logo {
+  width: 160px;
+  margin-top: 48px;
+  width: 309px;
+  height: auto;
+  margin: 44px auto 8px;
+  display: block;
+  pointer-events: none;
+}
 }
