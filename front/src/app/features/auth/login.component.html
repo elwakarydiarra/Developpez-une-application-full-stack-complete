@@ -1,20 +1,38 @@
 <div class="auth-page">
-  <!-- flèche retour → welcome -->
+  <!-- flèche retour -->
   <a class="back" (click)="goWelcome($event)" aria-label="Retour">
     <span class="material-icons">arrow_back</span>
   </a>
 
+  <!-- petit logo au-dessus du titre (comme la maquette) -->
+  <img class="logo" src="assets/mdd-logo.png" alt="MDD" />
+
   <h1>Se connecter</h1>
 
-  <form class="form" #f="ngForm" (ngSubmit)="onSubmit()">
+  <form class="form" #f="ngForm" (ngSubmit)="onSubmit(f)">
     <label class="label" for="login">E-mail ou nom d’utilisateur</label>
-    <input id="login" name="login" [(ngModel)]="login" required [disabled]="loading" />
+    <input
+      id="login"
+      name="login"
+      [(ngModel)]="login"
+      required
+      [disabled]="loading"
+      autocomplete="username"
+    />
 
     <label class="label" for="password">Mot de passe</label>
-    <input id="password" name="password" type="password" [(ngModel)]="password" required [disabled]="loading" />
+    <input
+      id="password"
+      name="password"
+      type="password"
+      [(ngModel)]="password"
+      required
+      [disabled]="loading"
+      autocomplete="current-password"
+    />
 
     <button class="primary" type="submit" [disabled]="loading || f.invalid">
-      {{ loading ? 'Connexion…' : 'Se connecter' }}
+      {{ loading ? 'En cours…' : 'Se connecter' }}
     </button>
 
     <p class="error" *ngIf="error">{{ error }}</p>

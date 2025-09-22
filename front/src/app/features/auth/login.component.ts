@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import { UiService } from 'src/app/core/services/ui.service';
 
 @Component({
   selector: 'app-login',
@@ -11,15 +12,27 @@ import { AuthService } from '../../core/services/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit, OnDestroy {
   login = '';
   password = '';
   loading = false;
   error = '';
 
-  constructor(private auth: AuthService, private router: Router) {}
+  private auth = inject(AuthService);
+  private router = inject(Router);
+  private ui = inject(UiService);
 
-  onSubmit() {
+  ngOnInit(): void {
+    // Indique que l'on est sur une page d'auth (pour le comportement du topbar)
+    this.ui.setAuthPage(true);
+  }
+
+  ngOnDestroy(): void {
+    // On quitte la page d'auth
+    this.ui.setAuthPage(false);
+  }
+
+  onSubmit(f?: NgForm) {
     if (this.loading) return;
     this.loading = true;
     this.error = '';
@@ -33,9 +46,10 @@ export class LoginComponent {
       complete: () => (this.loading = false),
     });
   }
+
   goWelcome(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    this.router.navigateByUrl('/');   // ← welcome
+    this.router.navigateByUrl('/'); // ← welcome
   }
 }

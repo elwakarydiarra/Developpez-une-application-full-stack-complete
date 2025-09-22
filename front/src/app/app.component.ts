@@ -1,8 +1,9 @@
 import { Component, inject } from '@angular/core';
-import { NavigationEnd, Router, RouterModule } from '@angular/router';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { filter, map, startWith } from 'rxjs';
+import { Router, RouterModule, NavigationEnd } from '@angular/router';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { AuthService } from './core/services/auth.service';
+import { UiService } from './core/services/ui.service';
+import { combineLatest, filter, map, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -14,18 +15,23 @@ import { AuthService } from './core/services/auth.service';
 export class AppComponent {
   private router = inject(Router);
   auth = inject(AuthService);
+  private ui = inject(UiService);
 
-  /** true si on est sur /login, /signup, /welcome ou / */
-  isAuthPage$ = this.router.events.pipe(
+  /** Détection par URL (sécurise même si on oublie d’appeler UiService dans un composant) */
+  private urlIsAuth$ = this.router.events.pipe(
     filter((e): e is NavigationEnd => e instanceof NavigationEnd),
-    map(e => this.isAuthUrl(e.urlAfterRedirects)),
-    startWith(this.isAuthUrl(this.router.url))
+    map(e => this.isAuthPath(e.urlAfterRedirects)),
+    startWith(this.isAuthPath(this.router.url))
   );
 
-  private isAuthUrl(url: string): boolean {
-    // normalise (retire query/fragment)
+  /** Flag final : true si page d’auth (login/signup/welcome) */
+  isAuthPage$ = combineLatest([this.ui.isAuthPage$, this.urlIsAuth$]).pipe(
+    map(([viaService, viaUrl]) => viaService || viaUrl)
+  );
+
+  private isAuthPath(url: string): boolean {
     const path = url.split('?')[0].split('#')[0];
-    return path === '/' || /^\/(login|signup|welcome)$/.test(path);
+    return path === '/' || path === '/welcome' || path === '/login' || path === '/signup';
   }
 
   logout(): void {
