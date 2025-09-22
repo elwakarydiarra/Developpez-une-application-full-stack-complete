@@ -1,16 +1,40 @@
 <div class="auth-page">
+  <!-- Flèche retour -->
   <a class="back" (click)="goWelcome($event)" aria-label="Retour">
     <span class="material-icons">arrow_back</span>
   </a>
 
+  <!-- Logo au-dessus du titre -->
+  <img class="logo" src="assets/mdd-logo.png" alt="MDD" />
+
   <h1>Inscription</h1>
 
-  <form class="form" #f="ngForm" (ngSubmit)="onSubmit()">
+  <form class="form" #f="ngForm" (ngSubmit)="onSubmit()" autocomplete="off" novalidate>
+    <div class="field">
     <label class="label" for="username">Nom d’utilisateur</label>
-    <input id="username" name="username" [(ngModel)]="username" required [disabled]="loading" />
-
+    <input
+      id="username"
+      name="username"
+      [(ngModel)]="username"
+      required
+      [disabled]="loading"
+      autocomplete="username"
+    />
+    </div>
+    <div class="field">
     <label class="label" for="email">Adresse e-mail</label>
-    <input id="email" name="email" type="email" [(ngModel)]="email" required [disabled]="loading" />
+    <input
+      id="email"
+      name="email"
+      type="email"
+      [(ngModel)]="email"
+      required
+      [disabled]="loading"
+      autocomplete="email"
+      inputmode="email"
+    />
+    </div>
+    <div class="field">
 
     <label class="label" for="password">Mot de passe</label>
     <input
@@ -22,26 +46,17 @@
       required
       [disabled]="loading"
       #pw="ngModel"
+      autocomplete="new-password"
       pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9])(?=\S+$).{8,}$"
-      placeholder="≥8, maj, min, chiffre, spécial"
     />
+    </div>
 
-    <!-- Checklist d’aide (utilise les getters du .ts) -->
-    <ul class="pwd-hints" [class.ok]="pw.valid || password.length === 0">
-      <li [class.ok]="lenOk">Au moins 8 caractères</li>
-      <li [class.ok]="lowerOk">Une lettre minuscule</li>
-      <li [class.ok]="upperOk">Une lettre majuscule</li>
-      <li [class.ok]="digitOk">Un chiffre</li>
-      <li [class.ok]="specialOk">Un caractère spécial</li>
-      <li [class.ok]="noSpaceOk">Sans espace</li>
-    </ul>
-
-    <!-- Messages de validation natifs -->
+    <!-- Messages de validation -->
     <p class="error" *ngIf="pw.invalid && pw.touched">
       <span *ngIf="pw.errors?.['required']">Mot de passe requis.</span>
-      <span *ngIf="pw.errors?.['minlength']">Au moins 8 caractères.</span>
+      <span *ngIf="pw.errors?.['minlength']">Au moins 8&nbsp;caractères.</span>
       <span *ngIf="pw.errors?.['pattern']">
-        Doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial, sans espaces.
+        Doit contenir une majuscule, une minuscule, un chiffre, un caractère spécial et aucun espace.
       </span>
     </p>
 

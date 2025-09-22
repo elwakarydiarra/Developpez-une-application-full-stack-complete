@@ -1,41 +1,34 @@
-<header class="topbar">
-  <!-- Logo toujours visible -->
-  <a class="brand"
-     [routerLink]="(auth.isLoggedIn$ | async) ? '/articles' : '/'"
-     aria-label="Accueil">
+<!-- Topbar masquée sur /, /welcome, /login, /signup -->
+<header class="topbar" *ngIf="!(isAuthPage$ | async)">
+  <!-- Logo (lien vers Articles) -->
+  <a class="brand" routerLink="/articles" aria-label="Accueil">
     <img src="assets/mdd-logo.png" alt="MDD" />
   </a>
 
-  <!-- Tout le bloc nav/menus est caché sur les pages d'auth -->
-  <ng-container *ngIf="!(isAuthPage$ | async)">
+  <!-- Navigation -->
+  <ng-container *ngIf="auth.isLoggedIn$ | async; else loggedOut">
+    <nav class="nav">
+      <a class="logout" (click)="logout()">Se déconnecter</a>
+      <a routerLink="/articles"
+         routerLinkActive="active"
+         [routerLinkActiveOptions]="{ exact: true }">Articles</a>
+      <a routerLink="/themes" routerLinkActive="active">Thèmes</a>
+    </nav>
 
-    <!-- Menus quand connecté -->
-    <ng-container *ngIf="auth.isLoggedIn$ | async; else loggedOut">
-      <nav class="nav">
-        <a class="logout" (click)="logout()">Se déconnecter</a>
-        <a routerLink="/articles"
-           routerLinkActive="active"
-           [routerLinkActiveOptions]="{ exact: true }">Articles</a>
-        <a routerLink="/themes" routerLinkActive="active">Thèmes</a>
-      </nav>
-
-      <!-- Icône Profil à droite -->
-      <div class="right">
-        <a class="profile" routerLink="/profile" aria-label="Profil">
-          <span class="material-icons">account_circle</span>
-        </a>
-      </div>
-    </ng-container>
-
-    <!-- Menus quand déconnecté (mais pas sur /login /signup /welcome) -->
-    <ng-template #loggedOut>
-      <nav class="nav">
-        <a routerLink="/login">Se connecter</a>
-        <a routerLink="/signup">S'inscrire</a>
-      </nav>
-    </ng-template>
-
+    <!-- Icône profil à droite -->
+    <a class="profile" routerLink="/profile" aria-label="Profil">
+      <span class="material-icons">account_circle</span>
+    </a>
   </ng-container>
+
+  <!-- État non connecté -->
+  <ng-template #loggedOut>
+    <nav class="nav">
+      <a routerLink="/login">Se connecter</a>
+      <a routerLink="/signup">S'inscrire</a>
+    </nav>
+  </ng-template>
 </header>
 
+<!-- Pages -->
 <router-outlet></router-outlet>
