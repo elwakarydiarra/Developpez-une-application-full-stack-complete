@@ -24,8 +24,9 @@ public class TopicService {
 		Set<Long> subscribedTopicIds = subRepo.findByIdUserId(userId).stream().map(s -> s.getId().getTopicId())
 				.collect(Collectors.toSet());
 
-		return topicRepo.findAll().stream()
-				.map(t -> new TopicDto(t.getId(), t.getName(), subscribedTopicIds.contains(t.getId()))).toList();
+		return topicRepo.findAll().stream().map(
+				t -> new TopicDto(t.getId(), t.getName(), t.getDescription(), subscribedTopicIds.contains(t.getId())))
+				.toList();
 	}
 
 	public void subscribe(Long userId, Long topicId) {
