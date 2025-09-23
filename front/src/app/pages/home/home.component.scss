@@ -11,6 +11,7 @@
   align-items: center;
   justify-content: space-between;
   margin: 12px 0 18px;
+  gap: 12px; /* petit espace par défaut */
 }
 
 /* bouton violet “Créer un article” */
@@ -26,7 +27,7 @@
 }
 .primary:hover { background: #6b4fd6; }
 
-/* bouton “Trier par ↓” à droite */
+/* bouton “Trier par ↓” */
 .sort {
   display: inline-flex;
   align-items: center;
@@ -81,7 +82,29 @@
 }
 
 .excerpt { color: #2b2b34; margin: 8px 0 12px; }
-/* responsive : 1 colonne sur petits écrans (optionnel) */
+
+/* responsive : 1 colonne sur petits écrans */
 @media (max-width: 860px) {
   .grid { grid-template-columns: 1fr; }
+}
+
+/* === MOBILE : actions centrées l’une sous l’autre === */
+@media (max-width: 768px) {
+  .toolbar {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;           /* espace entre les deux boutons */
+    text-align: center;
+  }
+
+  /* largeur auto, centrés */
+  .sort {
+    width: auto;
+    max-width: 100%;
+  }
+   .primary{
+    width: 50%;
+    max-width: 100%;
+  }
 }

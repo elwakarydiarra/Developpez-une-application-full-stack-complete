@@ -34,8 +34,22 @@ export class AppComponent {
     return path === '/' || path === '/welcome' || path === '/login' || path === '/signup';
   }
 
+  /** ---- Mobile drawer ---- */
+  mobileMenu = false;
+
+  constructor() {
+    // referme le drawer à chaque navigation
+    this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(() => {
+      this.mobileMenu = false;
+    });
+  }
+
+  toggleMenu() { this.mobileMenu = !this.mobileMenu; }
+  closeMenu()  { this.mobileMenu = false; }
+
   logout(): void {
     this.auth.logout();
+    this.mobileMenu = false;
     this.router.navigateByUrl('/login');
   }
 }

@@ -7,13 +7,14 @@
     <h1 class="title">{{ post?.title }}</h1>
   </div>
 
-  <!-- Meta : Date • Auteur • Thème -->
+  <!-- Meta : Date • Auteur (même ligne) + Thème en dessous -->
   <div class="meta" *ngIf="post">
-    <span>{{ post.createdAt | date:'mediumDate' }}</span>
+    <div class="inline">
+      <span class="date">{{ post.createdAt | date:'mediumDate' }}</span>
 
-    <span>{{ labelAuthor(post) }}</span>
-
-    <span>{{ labelTopic(post) }}</span>
+      <span class="author">{{ labelAuthor(post) }}</span>
+    </div>
+    <div class="topic">{{ labelTopic(post) }}</div>
   </div>
 
   <!-- Contenu -->
@@ -33,7 +34,7 @@
     </div>
   </div>
 
-  <!-- Zone de saisie + bouton avion à l’extérieur -->
+  <!-- Zone de saisie + bouton avion -->
   <form class="composer" (ngSubmit)="send()">
     <textarea
       [(ngModel)]="text"
@@ -43,7 +44,7 @@
       required
     ></textarea>
 
-    <button class="send" type="submit" [disabled]="sending || !text.trim()">
+    <button class="send" type="submit" [disabled]="sending || !text?.trim()">
       <span class="material-icons">send</span>
     </button>
   </form>

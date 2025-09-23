@@ -1,21 +1,39 @@
 <header class="topbar" [class.auth]="(isAuthPage$ | async) ?? false">
-  <!-- logo toujours visible (desktop) ; clique → articles si loggé sinon welcome -->
-  <a class="brand" [routerLink]="(auth.isLoggedIn$ | async) ? '/articles' : '/welcome'" aria-label="Accueil">
+  <!-- Logo : clique → articles si loggé, sinon welcome -->
+  <a
+    class="brand"
+    [routerLink]="(auth.isLoggedIn$ | async) ? '/articles' : '/welcome'"
+    aria-label="Accueil">
     <img src="assets/mdd-logo.png" alt="MDD" />
   </a>
 
-  <!-- NAV NORMAL (pages non-auth uniquement) -->
+  <!-- NAV DESKTOP (pages non-auth uniquement) -->
   <ng-container *ngIf="!(isAuthPage$ | async)">
     <nav class="nav" *ngIf="auth.isLoggedIn$ | async">
       <a class="logout" (click)="logout()">Se déconnecter</a>
-      <a routerLink="/articles" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Articles</a>
-      <a routerLink="/themes" routerLinkActive="active">Thèmes</a>
+      <a routerLink="/articles"
+         routerLinkActive="active"
+         [routerLinkActiveOptions]="{ exact: true }">Articles</a>
+      <a routerLink="/themes"
+         routerLinkActive="active">Thèmes</a>
     </nav>
+
+    <!-- Profil (desktop) -->
     <div class="right" *ngIf="auth.isLoggedIn$ | async">
       <a class="profile" routerLink="/profile" aria-label="Profil">
         <span class="material-icons">account_circle</span>
       </a>
     </div>
+
+    <!-- Burger (mobile only via CSS) -->
+    <button
+      class="burger"
+      type="button"
+      aria-label="Menu"
+      *ngIf="auth.isLoggedIn$ | async"
+      (click)="toggleMenu()">
+      <span class="material-icons">menu</span>
+    </button>
   </ng-container>
 
   <!-- PAGES D’AUTH : rien d’autre que le logo -->
@@ -23,5 +41,22 @@
     <!-- volontairement vide : nav et profil sont masqués par le CSS -->
   </ng-container>
 </header>
+
+<!-- Overlay sombre quand le tiroir est ouvert -->
+<div class="scrim" *ngIf="mobileMenu" (click)="closeMenu()"></div>
+
+<!-- Tiroir mobile -->
+<aside
+  class="drawer"
+  [class.open]="mobileMenu"
+  *ngIf="(auth.isLoggedIn$ | async) && !(isAuthPage$ | async)">
+  <button class="logout" type="button" (click)="logout()">Se déconnecter</button>
+  <a routerLink="/articles" (click)="closeMenu()">Articles</a>
+  <a routerLink="/themes"  (click)="closeMenu()">Thèmes</a>
+
+  <a class="profile-bottom" routerLink="/profile" (click)="closeMenu()" aria-label="Profil">
+    <span class="material-icons">account_circle</span>
+  </a>
+</aside>
 
 <router-outlet></router-outlet>

@@ -1,16 +1,26 @@
-.page-title{font-size:24px;font-weight:700;margin:16px 0 20px}
-
-.grid{
-  display:grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap:24px;
+.page {
+  max-width: 1120px;      /* ajuste 1080–1200 selon ton goût */
+  margin: 0 auto;
+  padding: 20px 24px 40px; /* marge latérale + air en bas */
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px 32px; /* espace vertical/horizontal */
 }
 
-.card{
+/*.card{
   background:#f6f6f8;
   border-radius:14px;
   padding:18px 20px 16px;
   box-shadow: 0 1px 0 rgba(0,0,0,.05);
+}*/
+.card {
+  background: #f2f2f5;     /* gris très clair */
+  border-radius: 12px;
+  padding: 18px;
+  cursor: pointer;
+  transition: box-shadow .15s ease, transform .05s ease;
 }
 
 .title{margin:0 0 8px;font-weight:700}
@@ -29,3 +39,12 @@
 .btn-primary:hover{filter:brightness(0.95)}
 .btn-muted{background:#e5e6eb;color:#666;cursor:default}
 .error{color:#c62828;margin:8px 0}
+@media (max-width: 768px) {
+.page-title{display: none;}
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;  /* 1 carte par ligne */
+    gap: 12px;                    /* espace entre cartes */
+    padding: 14px 19px;              /* petite marge latérale */
+  }
+}
