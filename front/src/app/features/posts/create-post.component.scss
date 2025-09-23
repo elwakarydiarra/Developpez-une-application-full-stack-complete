@@ -82,3 +82,33 @@ textarea:focus {
   overflow: hidden; clip: rect(1px, 1px, 1px, 1px);
   white-space: nowrap; border: 0; padding: 0; margin: -1px;
 }
+@media (max-width: 768px) {
+  .create-post { padding: 83px 22px 40px;
+
+  }
+  select,
+input,
+textarea {
+  width: 100%;
+  border: 2px solid #8a6de9;
+  border-radius: 10px;
+  padding: 18px 0px;
+  outline: none;
+  font-size: 16px;
+  background: #fff;
+  color: #1f1f1f;
+  transition: box-shadow .15s ease, border-color .15s ease;
+}
+.primary {
+  align-self: center;
+  background: #7c5ce6;
+  color: #fff;
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 40px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 0 rgba(0,0,0,.06);
+}
+
+}

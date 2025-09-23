@@ -52,4 +52,5 @@ export class CreatePostComponent {
       error: () => { this.loading = false; this.error = 'Création impossible.'; }
     });
   }
+
 }
