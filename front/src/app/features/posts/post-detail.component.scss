@@ -26,12 +26,17 @@
 /* méta */
 .meta{
   display: inline-flex;
-  gap: 12px;
+  gap: 7rem;
   align-items: center;
   color: #6a6a75;
   font-weight: 600;
   margin: 10px 0 18px;
   font-size: 16px;
+}
+.meta .inline{
+  display:flex;
+  align-items:center;
+  column-gap: 7rem;     /* espace entre date et auteur */
 }
 
 /* contenu + séparation */

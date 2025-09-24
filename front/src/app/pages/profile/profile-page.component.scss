@@ -3,7 +3,7 @@ $violet-700: #6a52d1;
 $bg-card: #f1f1f6;
 
 .wrap{
-  max-width: 1120px;
+  //max-width: 1120px;
   margin: 0 auto;
   padding: 20px 24px 40px;
 }
@@ -42,6 +42,9 @@ $bg-card: #f1f1f6;
   padding: 12px 18px;
   font-weight: 700;
   cursor: pointer;
+  width: 29%;
+  display: block;
+  margin: 16px auto 0;
 }
 .primary:disabled{ opacity: .6; cursor: default; }
 
@@ -71,7 +74,29 @@ $bg-card: #f1f1f6;
   gap: 18px;
 }
 @media (max-width: 860px){
-  .topics-grid{ grid-template-columns: 1fr; }  /* 1 par ligne sur mobile */
+  .topics-grid{ grid-template-columns: 1fr;
+  width: 24rem;}  /* 1 par ligne sur mobile */
+  .inp{
+  width: 22rem;
+  border: 2px solid $violet;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 16px;
+  outline: none;
+  background: #fff;
+}
+.primary{
+  background: $violet;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-weight: 700;
+  cursor: pointer;
+  width: 47%;
+  display: block;
+  margin: 16px auto 0;
+}
 }
 
 .card{

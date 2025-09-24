@@ -24,10 +24,10 @@
       <h3 class="title">{{ p.title }}</h3>
       <div class="meta">
         <span>{{ p.createdAt | date:'mediumDate' }}</span>
-        <span>•</span>
+        <span></span>
         <span>{{ p['authorUsername'] ?? 'Auteur' }}</span>
-        <span>•</span>
-        <span>{{ p['topicName'] ?? 'Thème' }}</span>
+        <span></span>
+
       </div>
       <p class="excerpt">{{ p.content }}</p>
     </article>

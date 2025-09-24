@@ -1,6 +1,6 @@
 /* conteneur centré comme la maquette */
 .page {
-  max-width: 1120px;      /* ajuste 1080–1200 selon ton goût */
+  //max-width: 1120px;      /* ajuste 1080–1200 selon ton goût */
   margin: 0 auto;
   padding: 20px 24px 40px; /* marge latérale + air en bas */
 }
@@ -54,6 +54,7 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 28px 32px; /* espace vertical/horizontal */
+  //width: 87rem;
 }
 
 /* carte */
@@ -63,6 +64,7 @@
   padding: 18px;
   cursor: pointer;
   transition: box-shadow .15s ease, transform .05s ease;
+  width: 92%;
 }
 .card:hover { box-shadow: 0 6px 18px rgba(0,0,0,.08); }
 
@@ -74,7 +76,7 @@
 
 .meta {
   display: inline-flex;
-  gap: 8px;
+  gap: 37px;
   align-items: center;
   color: #6a6a75;
   font-size: 14px;
@@ -85,11 +87,9 @@
 
 /* responsive : 1 colonne sur petits écrans */
 @media (max-width: 860px) {
-  .grid { grid-template-columns: 1fr; }
-}
+  .grid { grid-template-columns: 1fr;
+  //width: 24rem;}
 
-/* === MOBILE : actions centrées l’une sous l’autre === */
-@media (max-width: 768px) {
   .toolbar {
     flex-direction: column;
     justify-content: center;
@@ -108,3 +108,4 @@
     max-width: 100%;
   }
 }
+  }
