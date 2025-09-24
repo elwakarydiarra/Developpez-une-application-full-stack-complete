@@ -34,7 +34,7 @@ export class AppComponent {
     return path === '/' || path === '/welcome' || path === '/login' || path === '/signup';
   }
 
-  /** ---- Mobile drawer ---- */
+  /** Mobile drawer */
   mobileMenu = false;
 
   constructor() {

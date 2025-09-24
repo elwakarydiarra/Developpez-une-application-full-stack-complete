@@ -1,6 +1,5 @@
 /* conteneur centré comme la maquette */
 .page {
-  //max-width: 1120px;      /* ajuste 1080–1200 selon ton goût */
   margin: 0 auto;
   padding: 20px 24px 40px; /* marge latérale + air en bas */
 }
@@ -54,7 +53,6 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 28px 32px; /* espace vertical/horizontal */
-  //width: 87rem;
 }
 
 /* carte */
@@ -87,8 +85,7 @@
 
 /* responsive : 1 colonne sur petits écrans */
 @media (max-width: 860px) {
-  .grid { grid-template-columns: 1fr;
-  //width: 24rem;}
+  .grid { grid-template-columns: 1fr;}
 
   .toolbar {
     flex-direction: column;
@@ -108,4 +105,3 @@
     max-width: 100%;
   }
 }
-  }

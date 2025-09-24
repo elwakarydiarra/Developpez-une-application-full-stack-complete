@@ -1,5 +1,5 @@
 .page {
-  //max-width: 1120px;      /* ajuste 1080–1200 selon ton goût */
+
   margin: 0 auto;
   padding: 20px 24px 40px; /* marge latérale + air en bas */
 }
@@ -7,15 +7,9 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 28px 32px; /* espace vertical/horizontal */
-  //width: 87rem;
+
 }
 
-/*.card{
-  background:#f6f6f8;
-  border-radius:14px;
-  padding:18px 20px 16px;
-  box-shadow: 0 1px 0 rgba(0,0,0,.05);
-}*/
 .card {
   background: #f2f2f5;     /* gris très clair */
   border-radius: 12px;
@@ -47,6 +41,5 @@
     grid-template-columns: 1fr;  /* 1 carte par ligne */
     gap: 12px;                    /* espace entre cartes */
     padding: 14px 19px;              /* petite marge latérale */
-   // width: 24rem;
   }
 }

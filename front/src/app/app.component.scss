@@ -1,6 +1,3 @@
-/* ===================== */
-/* Topbar (desktop de base) */
-/* ===================== */
 .topbar {
   position: sticky;
   top: 0;
@@ -51,9 +48,9 @@
 }
 .profile:hover .material-icons { color: #7c5ce6; }
 
-/* ===================== */
+
 /* Burger (caché par défaut, visible en mobile) */
-/* ===================== */
+
 .burger {
   display: none;
   border: 0;
@@ -65,9 +62,8 @@
 }
 .burger .material-icons { font-size: 28px; line-height: 1; }
 
-/* ===================== */
+
 /* Drawer + scrim (menu mobile) */
-/* ===================== */
 .scrim {
   position: fixed;
   inset: 0;
@@ -117,9 +113,9 @@
 
 .drawer.open { transform: translateX(0); }
 
-/* ===================== */
+
 /* Responsive */
-/* ===================== */
+
 
 /* Cacher la topbar sur les pages d’auth UNIQUEMENT en mobile */
 @media (max-width: 1024px) {
