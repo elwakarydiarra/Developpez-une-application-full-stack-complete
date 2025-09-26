@@ -34,6 +34,11 @@ export class AuthService {
     this.isLoggedIn$.next(false);
   }
 
+  setToken(token: string) {
+  localStorage.setItem(this.TOKEN_KEY, token);
+  this.isLoggedIn$.next(true);
+}
+
   get token(): string | null {
     return localStorage.getItem(this.TOKEN_KEY);
   }

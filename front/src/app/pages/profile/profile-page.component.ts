@@ -4,6 +4,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { TopicsService, TopicDto } from '../../core/services/topics.service';
+import { AuthService } from '../../core/services/auth.service';
 
 interface UserDto { id: number; email: string; username: string; }
 
@@ -17,16 +18,17 @@ interface UserDto { id: number; email: string; username: string; }
 export class ProfilePageComponent {
   private http = inject(HttpClient);
   private topicsSrv = inject(TopicsService);
+  private auth = inject(AuthService);
 
-  // ---- Profil ----
+
   email = '';
   username = '';
-  password = '';           // nouveau mot de passe (optionnel)
+  password = '';
   saving = false;
   infoMsg = '';
   errorMsg = '';
 
-  // ---- Abonnements ----
+
   myTopics: TopicDto[] = [];
   loadingTopics = false;
   unsubscribingId: number | null = null;
@@ -64,10 +66,23 @@ export class ProfilePageComponent {
     this.saving = true; this.infoMsg = ''; this.errorMsg = '';
 
     // 1) maj email / username
-    this.http.put<UserDto>(`${environment.apiUrl}/me`, {
+    this.http.put<any>(`${environment.apiUrl}/me`, {
       email: this.email, username: this.username
     }).subscribe({
-      next: () => {
+      next: (r) => {
+        // si le back renvoie un nouveau token (username changé), on le stocke
+        const newToken = r?.token;
+        if (newToken) {
+          // utilise setToken si dispo, sinon fallback localStorage
+          const anyAuth: any = this.auth as any;
+          if (typeof anyAuth.setToken === 'function') {
+            anyAuth.setToken(newToken);
+          } else {
+            localStorage.setItem('token', newToken);
+            // si ton AuthService expose un BehaviorSubject isLoggedIn$, tu peux le pinger ici si besoin
+          }
+        }
+
         // 2) si nouveau mot de passe fourni
         const newPw = this.password?.trim();
         if (newPw) {
@@ -76,10 +91,18 @@ export class ProfilePageComponent {
             return;
           }
           this.http.put(`${environment.apiUrl}/me/password`, { newPassword: newPw }).subscribe({
-            next: () => this.finishSave(true),
+            next: () => {
+              // Recharge les données (suivant ton besoin)
+              this.loadProfile();
+              this.loadMyTopics();
+              this.finishSave(true);
+            },
             error: (e) => this.finishSave(false, e?.error ?? 'Échec de la mise à jour du mot de passe.')
           });
         } else {
+          // Recharge les données pour refléter le nouvel username/email immédiatement
+          this.loadProfile();
+          this.loadMyTopics();
           this.finishSave(true);
         }
       },
@@ -112,6 +135,7 @@ export class ProfilePageComponent {
 
   trackById = (_: number, t: TopicDto) => t.id;
 
+  // Se désabonner d'un thème
   unsubscribe(t: TopicDto) {
     if (this.unsubscribingId) return;
     this.unsubscribingId = t.id;
