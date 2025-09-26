@@ -1,5 +1,7 @@
 package com.openclassrooms.mddapi.controller;
 
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.openclassrooms.mddapi.config.JwtService;
 import com.openclassrooms.mddapi.dto.PasswordUpdateRequest;
 import com.openclassrooms.mddapi.dto.ProfileUpdateRequest;
 import com.openclassrooms.mddapi.dto.UserDto;
@@ -26,6 +29,11 @@ public class UserController {
 	private final CurrentUser currentUser;
 	private final UserRepository userRepo;
 	private final PasswordEncoder encoder;
+	private final JwtService jwtService;
+
+	/** Petite DTO de réponse pour renvoyer l'user + le nouveau token */
+	public record UpdateResponse(UserDto user, String token) {
+	}
 
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping
@@ -46,7 +54,6 @@ public class UserController {
 			String newEmail = req.email().trim().toLowerCase();
 			String newUsername = req.username().trim();
 
-			// Conflits: pris par un autre utilisateur ?
 			boolean emailTaken = userRepo.existsByEmail(newEmail) && !newEmail.equalsIgnoreCase(u.getEmail());
 			if (emailTaken)
 				return ResponseEntity.status(HttpStatus.CONFLICT).body("Email déjà utilisé");
@@ -55,11 +62,14 @@ public class UserController {
 			if (usernameTaken)
 				return ResponseEntity.status(HttpStatus.CONFLICT).body("Username déjà utilisé");
 
+			// Mise à jour
 			u.setEmail(newEmail);
 			u.setUsername(newUsername);
 			userRepo.save(u);
 
-			return ResponseEntity.ok(new UserDto(u.getId(), u.getEmail(), u.getUsername()));
+			String token = jwtService.generate(u.getUsername(), Map.of());
+
+			return ResponseEntity.ok(new UpdateResponse(new UserDto(u.getId(), u.getEmail(), u.getUsername()), token));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur mise à jour profil");
 		}
@@ -75,17 +85,12 @@ public class UserController {
 
 			User u = currentUser.requireUser();
 
-			// Exiger l'actuel si fourni (ou rends-le obligatoire ici si tu préfères)
+
 			if (req.currentPassword() != null && !req.currentPassword().isBlank()) {
 				if (!encoder.matches(req.currentPassword(), u.getPasswordHash())) {
 					return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Mot de passe actuel incorrect");
 				}
 			}
-			// Si tu veux le rendre OBLIGATOIRE, remplace le bloc ci-dessus par :
-			// if (!encoder.matches(req.currentPassword(), u.getPasswordHash())) {
-			// return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Mot de passe actuel
-			// incorrect");
-			// }
 
 			u.setPasswordHash(encoder.encode(req.newPassword()));
 			userRepo.save(u);
